@@ -1,6 +1,8 @@
-package org.example;
+package org.example.model;
 
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class FootballMatchTest {
     public static final String HOME_TEAM = "Arsenal";
@@ -12,17 +14,17 @@ public class FootballMatchTest {
         //when
         FootballMatch match = FootballMatch.createNewFootballMatch(HOME_TEAM, AWAY_TEAM);
         //then
-        assertEquals(match.getHomeTeamName, HOME_TEAM);
-        assertEquals(match.getAwayTeamName, AWAY_TEAM);
-        assertEquals(match.getHomeTeamScore, 0);
-        assertEquals(match.getAwayTeamScore, 0);
+        assertEquals(match.getHomeTeamName(), HOME_TEAM);
+        assertEquals(match.getAwayTeamName(), AWAY_TEAM);
+        assertEquals(match.getHomeTeamScore(), Integer.valueOf(0));
+        assertEquals(match.getAwayTeamScore(), Integer.valueOf(0));
 
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldNotCreateFootballMatchDueToLackOfHomeTeamName() {
         //given
-        FootballMatch match = FootballMatch.createNewFootballMatch(null, AWAY_TEAM);
+        FootballMatch.createNewFootballMatch(null, AWAY_TEAM);
         //when
         //then
     }
@@ -30,7 +32,7 @@ public class FootballMatchTest {
     @Test(expected = IllegalArgumentException.class)
     public void shouldNotCreateFootballMatchDueToLackOfAwayTeamName() {
         //given
-        FootballMatch match = FootballMatch.createNewFootballMatch(HOME_TEAM, null);
+        FootballMatch.createNewFootballMatch(HOME_TEAM, null);
         //when
         //then
     }
@@ -38,7 +40,7 @@ public class FootballMatchTest {
     @Test(expected = IllegalArgumentException.class)
     public void shouldNotCreateFootballMatchDueToTooLongHomeTeamName() {
         //given
-        FootballMatch match = FootballMatch.createNewFootballMatch("test_test_test_test_test_test_test_test_test_test_test_test_test_", AWAY_TEAM);
+        FootballMatch.createNewFootballMatch("test_test_test_test_test_test_test_test_test_test_test_test_test_", AWAY_TEAM);
         //when
         //then
     }
@@ -46,7 +48,7 @@ public class FootballMatchTest {
     @Test(expected = IllegalArgumentException.class)
     public void shouldNotCreateFootballMatchDueToTooLongAwayTeamName() {
         //given
-        FootballMatch match = FootballMatch.createNewFootballMatch(HOME_TEAM, "test_test_test_test_test_test_test_test_test_test_test_test_test_");
+        FootballMatch.createNewFootballMatch(HOME_TEAM, "test_test_test_test_test_test_test_test_test_test_test_test_test_");
         //when
         //then
     }
@@ -54,7 +56,7 @@ public class FootballMatchTest {
     @Test(expected = IllegalArgumentException.class)
     public void shouldNotCreateFootballMatchDueToNumbersInHomeTeamName() {
         //given
-        FootballMatch match = FootballMatch.createNewFootballMatch("Ar123senal", AWAY_TEAM);
+        FootballMatch.createNewFootballMatch("Ar123senal", AWAY_TEAM);
         //when
         //then
     }
@@ -62,7 +64,7 @@ public class FootballMatchTest {
     @Test(expected = IllegalArgumentException.class)
     public void shouldNotCreateFootballMatchDueToNumbersInAwayTeamName() {
         //given
-        FootballMatch match = FootballMatch.createNewFootballMatch(HOME_TEAM, "Che333lsea");
+        FootballMatch.createNewFootballMatch(HOME_TEAM, "Che333lsea");
         //when
         //then
     }
@@ -70,7 +72,7 @@ public class FootballMatchTest {
     @Test(expected = IllegalArgumentException.class)
     public void shouldNotCreateFootballMatchDueToEmptyHomeTeamName() {
         //given
-        FootballMatch match = FootballMatch.createNewFootballMatch("", AWAY_TEAM);
+        FootballMatch.createNewFootballMatch("", AWAY_TEAM);
         //when
         //then
     }
@@ -78,7 +80,7 @@ public class FootballMatchTest {
     @Test(expected = IllegalArgumentException.class)
     public void shouldNotCreateFootballMatchDueToEmptyAwayTeamName() {
         //given
-        FootballMatch match = FootballMatch.createNewFootballMatch(HOME_TEAM, "");
+        FootballMatch.createNewFootballMatch(HOME_TEAM, "");
         //when
         //then
     }
