@@ -8,10 +8,14 @@ import java.util.List;
 
 public class FootballMatchRepositoryImpl implements FootballMatchRepository {
 
-    private final List<FootballMatch> footballMatches = new ArrayList<>();
+    private final List<FootballMatch> footballMatches;
+
+    public FootballMatchRepositoryImpl() {
+        this.footballMatches = new ArrayList<>();
+    }
 
     @Override
-    public void startFootballMatch(FootballMatch footballMatch) {
+    public FootballMatch startFootballMatch(FootballMatch footballMatch) {
         if (footballMatch == null) {
             throw new IllegalArgumentException("footballMatch cannot be null");
         }
@@ -21,6 +25,7 @@ public class FootballMatchRepositoryImpl implements FootballMatchRepository {
         }
 
         footballMatches.add(footballMatch);
+        return footballMatch;
     }
 
     @Override

@@ -7,10 +7,10 @@ import java.util.List;
 public interface FootballMatchRepository {
 
     /**
-     * Method responsible for creating new football match.
+     * Method responsible for storing new football match.
      * @param footballMatch which should be stored in the db.
      */
-    void startFootballMatch(final FootballMatch footballMatch);
+    FootballMatch startFootballMatch(final FootballMatch footballMatch);
 
     /**
      * Method responsible returning all existing football matches.
