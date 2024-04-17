@@ -1,11 +1,14 @@
 package processor;
 
+import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.example.model.FootballMatch;
 import org.example.processor.FootballMatchProcessor;
 import org.example.processor.impl.FootballMatchProcessorImpl;
 import org.example.utils.MatchStatus;
 import org.junit.Test;
+
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -65,5 +68,32 @@ public class FootballMatchProcessorTest {
         assertEquals(finishMatch.getAwayTeamScore(), Integer.valueOf(0));
         assertEquals(finishMatch.getTotalScore(), Integer.valueOf(0));
         assertEquals(finishMatch.getMatchStatus(), MatchStatus.ENDED);
+    }
+
+    @Test
+    public void shouldCreateFootballMatchesSummary() {
+        //given
+        FootballMatchProcessor processor = new FootballMatchProcessorImpl();
+        processor.startFootballMatch(HOME_TEAM, "Bayern Monachium");
+        processor.startFootballMatch("Manchester City", "Real Madryt");
+        processor.startFootballMatch("Barcelona", "PSG");
+        processor.startFootballMatch("Borussia Dortmund", "Atletico Madryt");
+
+
+        FootballMatch oldestMatch = processor.updateMatchScore(new MutablePair<>("Borussia Dortmund", 3), new MutablePair<>("Atletico Madryt", 3));
+        FootballMatch match1 = processor.updateMatchScore(new MutablePair<>(HOME_TEAM, 1), new MutablePair<>("Bayern Monachium", 1));
+        FootballMatch match2 = processor.updateMatchScore(new MutablePair<>("Manchester City", 2), new MutablePair<>("Real Madryt", 2));
+        FootballMatch match3 = processor.updateMatchScore(new MutablePair<>("Barcelona", 3), new MutablePair<>("PSG", 3));
+
+        List<FootballMatch> summaryListCorrectOrder = List.of(oldestMatch, match3, match2, match1);
+
+        //when
+        List<FootballMatch> footballMatchesSummary = processor.createMatchesSummary();
+
+        //then
+        assertEquals(footballMatchesSummary, summaryListCorrectOrder);
+        assertEquals(footballMatchesSummary.get(0).getTotalScore(), Integer.valueOf(6));
+        assertEquals(footballMatchesSummary.get(0).getHomeTeamName(), HOME_TEAM);
+
     }
 }

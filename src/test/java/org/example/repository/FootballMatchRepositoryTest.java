@@ -266,5 +266,6 @@ public class FootballMatchRepositoryTest {
         //then
         assertEquals(footballMatchesSummary, footballMatchesSummaryInCorrectOrder);
         assertEquals(footballMatchesSummary.get(0).getTotalScore(), Integer.valueOf(6));
+        assertEquals(footballMatchesSummary.get(0).getHomeTeamName(), "Pilzno");
     }
 }
