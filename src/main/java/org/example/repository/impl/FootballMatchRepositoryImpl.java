@@ -1,5 +1,6 @@
 package org.example.repository.impl;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.example.model.FootballMatch;
 import org.example.repository.FootballMatchRepository;
 
@@ -31,5 +32,23 @@ public class FootballMatchRepositoryImpl implements FootballMatchRepository {
     @Override
     public List<FootballMatch> getFootballMatches() {
         return footballMatches;
+    }
+
+    @Override
+    public FootballMatch updateFootballMatch(Pair<String, Integer> homeTeamNewScore, Pair<String, Integer> awayTeamNewScore) {
+        if (homeTeamNewScore == null || awayTeamNewScore == null) throw new IllegalArgumentException("homeTeamNewScore or awayTeamNewScore cannot be null");
+
+        FootballMatch footballMatch = findFootballMatch(homeTeamNewScore.getLeft(), awayTeamNewScore.getLeft());
+
+        if (footballMatch == null) throw new IllegalArgumentException("footballMatch couldn't be find");
+
+        return footballMatch.updateScore(homeTeamNewScore, awayTeamNewScore);
+    }
+
+    private FootballMatch findFootballMatch(String homeTeamName, String awayTeamName) {
+        return getFootballMatches().stream()
+                .filter(match -> match.getHomeTeamName().equals(homeTeamName) || match.getAwayTeamName().equals(awayTeamName))
+                .findFirst()
+                .orElse(null);
     }
 }

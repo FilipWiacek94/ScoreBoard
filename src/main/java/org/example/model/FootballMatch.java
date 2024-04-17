@@ -11,7 +11,7 @@ public class FootballMatch {
 
     private final Pair<String, Integer> homeTeam;
     private final Pair<String, Integer> awayTeam;
-    private final Integer totalScore;
+    private Integer totalScore;
     private final MatchStatus matchStatus;
 
     private FootballMatch(String homeTeamName, String awayTeamName) {
@@ -31,6 +31,16 @@ public class FootballMatch {
         return new FootballMatch(homeTeamName, awayTeamName);
     }
 
+    public FootballMatch updateScore(Pair<String, Integer> homeTeamNewScore, Pair<String, Integer> awayTeamNewScore) {
+        if (areFootballTeamsNamesNotSame(homeTeamNewScore.getKey(), awayTeamNewScore.getKey())) throw new IllegalArgumentException("homeTeam or awayTeam are not the same");
+        if (homeTeamNewScore.getValue() < 0 || awayTeamNewScore.getValue() < 0) throw new IllegalArgumentException("homeTeam new score or awayTeam new score is below 0 ");
+
+        this.homeTeam.setValue(homeTeamNewScore.getValue());
+        this.awayTeam.setValue(awayTeamNewScore.getValue());
+        this.totalScore = this.homeTeam.getValue() + this.awayTeam.getValue();
+        return this;
+    }
+
     public String getHomeTeamName() {
         return this.homeTeam.getKey();
     }
@@ -45,6 +55,14 @@ public class FootballMatch {
 
     public Integer getAwayTeamScore() {
         return this.awayTeam.getValue();
+    }
+
+    public Integer getTotalScore() {
+        return this.totalScore;
+    }
+
+    private boolean areFootballTeamsNamesNotSame(String homeTeamName, String awayTeamName) {
+        return !this.homeTeam.getKey().equals(homeTeamName) || !this.awayTeam.getKey().equals(awayTeamName);
     }
 
     @Override
