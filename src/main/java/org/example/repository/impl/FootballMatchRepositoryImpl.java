@@ -5,7 +5,9 @@ import org.example.model.FootballMatch;
 import org.example.repository.FootballMatchRepository;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FootballMatchRepositoryImpl implements FootballMatchRepository {
 
@@ -55,6 +57,19 @@ public class FootballMatchRepositoryImpl implements FootballMatchRepository {
 
         getFootballMatches().remove(footballMatch);
         return footballMatch.finishGame();
+    }
+
+    @Override
+    public List<FootballMatch> createFootballMatchesSummary() {
+        List<FootballMatch> footballMatches = getFootballMatches();
+
+        return footballMatches.stream().sorted((match1, match2) -> {
+            if (match1.getTotalScore() != match2.getTotalScore()) {
+                return Integer.compare(match2.getTotalScore(), match1.getTotalScore());
+            } else {
+                return match2.getStartTime().compareTo(match1.getStartTime());
+            }
+        }).collect(Collectors.toList());
     }
 
     private FootballMatch findFootballMatch(String homeTeamName, String awayTeamName) {

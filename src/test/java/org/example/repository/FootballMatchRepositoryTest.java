@@ -231,7 +231,7 @@ public class FootballMatchRepositoryTest {
         List<FootballMatch> footballMatchesSummaryInCorrectOrder = Arrays.asList(match4, match3, match2, match1);
 
         //when
-        List<FootballMatch> footballMatchesSummary = repository.createFootballMatachesSummary();
+        List<FootballMatch> footballMatchesSummary = repository.createFootballMatchesSummary();
 
         //then
         assertEquals(footballMatchesSummary, footballMatchesSummaryInCorrectOrder);
@@ -261,7 +261,7 @@ public class FootballMatchRepositoryTest {
         List<FootballMatch> footballMatchesSummaryInCorrectOrder = Arrays.asList(oldestMatch, match3, match2, match1);
 
         //when
-        List<FootballMatch> footballMatchesSummary = repository.createFootballMatachesSummary();
+        List<FootballMatch> footballMatchesSummary = repository.createFootballMatchesSummary();
 
         //then
         assertEquals(footballMatchesSummary, footballMatchesSummaryInCorrectOrder);

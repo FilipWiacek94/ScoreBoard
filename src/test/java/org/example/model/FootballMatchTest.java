@@ -134,7 +134,7 @@ public class FootballMatchTest {
     @Test(expected = IllegalArgumentException.class)
     public void shouldNotUpdateMatchSCoreDueToAwayTeamNewScoreBelowZero() {
         //given
-        FootballMatch newFootballMatch = FootballMatch.createNewFootballMatch(HOME_TEAM, AWAY_TEAM);
+        var newFootballMatch = FootballMatch.createNewFootballMatch(HOME_TEAM, AWAY_TEAM);
 
         //when
         newFootballMatch.updateScore(new MutablePair<>(HOME_TEAM, 2), new MutablePair<>(AWAY_TEAM, -1));

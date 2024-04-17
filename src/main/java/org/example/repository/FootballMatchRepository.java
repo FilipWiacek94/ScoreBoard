@@ -34,4 +34,10 @@ public interface FootballMatchRepository {
      * @return Finished FootballMatch.
      */
     FootballMatch finishMatch(final String homeTeamName, final String awayTeamName);
+
+    /**
+     * Method responsible for creating football matches summary in correct order.
+     * @return created matches summary.
+     */
+    List<FootballMatch> createFootballMatchesSummary();
 }
