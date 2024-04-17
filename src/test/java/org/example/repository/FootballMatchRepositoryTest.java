@@ -180,4 +180,30 @@ public class FootballMatchRepositoryTest {
         //then
         FootballMatch endedFootballMatch = repository.finishMatch("Tottenham", AWAY_TEAM);
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldNotFinishMatchDueToNullValueOfHomeTeamName() {
+        //given
+        FootballMatch newFootballMatch = FootballMatch.createNewFootballMatch(HOME_TEAM, AWAY_TEAM);
+        FootballMatchRepository repository = new FootballMatchRepositoryImpl();
+
+        repository.startFootballMatch(newFootballMatch);
+
+        //when
+        //then
+        FootballMatch endedFootballMatch = repository.finishMatch(null, AWAY_TEAM);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldNotFinishMatchDueToNullValueOfAwayTeamName() {
+        //given
+        FootballMatch newFootballMatch = FootballMatch.createNewFootballMatch(HOME_TEAM, AWAY_TEAM);
+        FootballMatchRepository repository = new FootballMatchRepositoryImpl();
+
+        repository.startFootballMatch(newFootballMatch);
+
+        //when
+        //then
+        FootballMatch endedFootballMatch = repository.finishMatch(HOME_TEAM, null);
+    }
 }
