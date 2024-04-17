@@ -1,6 +1,7 @@
 package org.example.model;
 
 import org.apache.commons.lang3.tuple.MutablePair;
+import org.example.utils.MatchStatus;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -136,5 +137,28 @@ public class FootballMatchTest {
 
         //when
         newFootballMatch.updateScore(new MutablePair<>(HOME_TEAM, 2), new MutablePair<>(AWAY_TEAM, -1));
+    }
+
+    @Test
+    public void shouldFinishMatch() {
+        //given
+        FootballMatch newFootballMatch = FootballMatch.createNewFootballMatch(HOME_TEAM, AWAY_TEAM);
+
+        //when
+        newFootballMatch.finishGame();
+
+        //then
+        assertEquals(newFootballMatch.getMatchStatus, MatchStatus.ENDED);
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void shouldNotFinishMatchDueToAlreadyEndedStatus() {
+        //given
+        FootballMatch newFootballMatch = FootballMatch.createNewFootballMatch(HOME_TEAM, AWAY_TEAM);
+        newFootballMatch.finishGame();
+
+        //when
+        //then
+        newFootballMatch.finishGame();
     }
 }
