@@ -148,7 +148,7 @@ public class FootballMatchTest {
         newFootballMatch.finishGame();
 
         //then
-        assertEquals(newFootballMatch.getMatchStatus, MatchStatus.ENDED);
+        assertEquals(newFootballMatch.getMatchStatus(), MatchStatus.ENDED);
     }
 
     @Test(expected = IllegalStateException.class)

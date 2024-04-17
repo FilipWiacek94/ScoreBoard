@@ -12,7 +12,7 @@ public class FootballMatch {
     private final Pair<String, Integer> homeTeam;
     private final Pair<String, Integer> awayTeam;
     private Integer totalScore;
-    private final MatchStatus matchStatus;
+    private MatchStatus matchStatus;
 
     private FootballMatch(String homeTeamName, String awayTeamName) {
         if (homeTeamName == null || awayTeamName == null) throw new IllegalArgumentException("homeTeamName and awayTeamName cannot be null");
@@ -41,6 +41,13 @@ public class FootballMatch {
         return this;
     }
 
+    public FootballMatch finishGame() {
+        if (this.matchStatus.equals(MatchStatus.ENDED)) throw new IllegalStateException("Football match already has status ENDED.");
+
+        this.matchStatus = MatchStatus.ENDED;
+        return this;
+    }
+
     public String getHomeTeamName() {
         return this.homeTeam.getKey();
     }
@@ -59,6 +66,10 @@ public class FootballMatch {
 
     public Integer getTotalScore() {
         return this.totalScore;
+    }
+
+    public MatchStatus getMatchStatus() {
+        return matchStatus;
     }
 
     private boolean areFootballTeamsNamesNotSame(String homeTeamName, String awayTeamName) {
