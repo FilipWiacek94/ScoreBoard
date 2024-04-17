@@ -9,7 +9,7 @@ public interface FootballMatchRepository {
 
     /**
      * Method responsible for storing new football match.
-     * @param footballMatch which should be stored in the db.
+     * @param footballMatch which should be stored in the score board.
      */
     FootballMatch startFootballMatch(final FootballMatch footballMatch);
 
@@ -20,10 +20,18 @@ public interface FootballMatchRepository {
     List<FootballMatch> getFootballMatches();
 
     /**
-     * Method responsible for updating football match and storing it in the db.
+     * Method responsible for updating football match and storing it in the score board.
      * @param homeTeamNewScore New score of a homeTeam
      * @param awayTeamNewScore New Score of a awayTeam
      * @return Updated FootballTeam
      */
     FootballMatch updateFootballMatch(final Pair<String, Integer> homeTeamNewScore, final Pair<String, Integer> awayTeamNewScore);
+
+    /**
+     * Method responsible for finishing football match and deleting it from the score board.
+     * @param homeTeamName Name of home team.
+     * @param awayTeamName Name of away team.
+     * @return Finished FootballMatch.
+     */
+    FootballMatch finishMatch(final String homeTeamName, final String awayTeamName);
 }

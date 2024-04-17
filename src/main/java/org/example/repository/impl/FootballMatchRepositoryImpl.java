@@ -45,6 +45,18 @@ public class FootballMatchRepositoryImpl implements FootballMatchRepository {
         return footballMatch.updateScore(homeTeamNewScore, awayTeamNewScore);
     }
 
+    @Override
+    public FootballMatch finishMatch(String homeTeamName, String awayTeamName) {
+        if (homeTeamName == null || awayTeamName == null) throw new IllegalArgumentException("homeTeamName or awayTeamName cannot be null");
+
+        FootballMatch footballMatch = findFootballMatch(homeTeamName, awayTeamName);
+
+        if (footballMatch == null) throw new IllegalStateException("footballMatch couldn't be find");
+
+        getFootballMatches().remove(footballMatch);
+        return footballMatch.finishGame();
+    }
+
     private FootballMatch findFootballMatch(String homeTeamName, String awayTeamName) {
         return getFootballMatches().stream()
                 .filter(match -> match.getHomeTeamName().equals(homeTeamName) && match.getAwayTeamName().equals(awayTeamName))
