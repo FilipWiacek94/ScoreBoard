@@ -6,6 +6,8 @@ import org.example.processor.FootballMatchProcessor;
 import org.example.repository.FootballMatchRepository;
 import org.example.repository.impl.FootballMatchRepositoryImpl;
 
+import java.util.List;
+
 public class FootballMatchProcessorImpl implements FootballMatchProcessor {
 
     private final FootballMatchRepository footballMatchRepository;
@@ -28,5 +30,10 @@ public class FootballMatchProcessorImpl implements FootballMatchProcessor {
     @Override
     public FootballMatch finishMatch(String homeTeam, String awayTeam) {
         return footballMatchRepository.finishMatch(homeTeam, awayTeam);
+    }
+
+    @Override
+    public List<FootballMatch> createMatchesSummary() {
+        return footballMatchRepository.createFootballMatchesSummary();
     }
 }

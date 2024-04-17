@@ -3,6 +3,8 @@ package org.example.processor;
 import org.apache.commons.lang3.tuple.Pair;
 import org.example.model.FootballMatch;
 
+import java.util.List;
+
 public interface FootballMatchProcessor {
 
     /**
@@ -28,5 +30,11 @@ public interface FootballMatchProcessor {
      * @return Finished FootballMatch.
      */
     FootballMatch finishMatch(String homeTeam, String awayTeam);
+
+    /**
+     * Method responsible for creating score summary of the football matches.
+     * @return Created  score summary of the football matches.
+     */
+    List<FootballMatch> createMatchesSummary();
 }
 

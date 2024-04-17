@@ -8,6 +8,7 @@ import org.example.processor.impl.FootballMatchProcessorImpl;
 import org.example.utils.MatchStatus;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -74,18 +75,18 @@ public class FootballMatchProcessorTest {
     public void shouldCreateFootballMatchesSummary() {
         //given
         FootballMatchProcessor processor = new FootballMatchProcessorImpl();
-        processor.startFootballMatch(HOME_TEAM, "Bayern Monachium");
-        processor.startFootballMatch("Manchester City", "Real Madryt");
-        processor.startFootballMatch("Barcelona", "PSG");
-        processor.startFootballMatch("Borussia Dortmund", "Atletico Madryt");
+        FootballMatch oldestMatch = processor.startFootballMatch("Liverpool", "Bayern Monachium");
+        FootballMatch match1 = processor.startFootballMatch("Manchester City", "Real Madryt");
+        FootballMatch match2 = processor.startFootballMatch("Barcelona", "PSG");
+        FootballMatch match3 = processor.startFootballMatch("Borussia Dortmund", "Atletico Madryt");
 
 
-        FootballMatch oldestMatch = processor.updateMatchScore(new MutablePair<>("Borussia Dortmund", 3), new MutablePair<>("Atletico Madryt", 3));
-        FootballMatch match1 = processor.updateMatchScore(new MutablePair<>(HOME_TEAM, 1), new MutablePair<>("Bayern Monachium", 1));
-        FootballMatch match2 = processor.updateMatchScore(new MutablePair<>("Manchester City", 2), new MutablePair<>("Real Madryt", 2));
-        FootballMatch match3 = processor.updateMatchScore(new MutablePair<>("Barcelona", 3), new MutablePair<>("PSG", 3));
+        processor.updateMatchScore(new MutablePair<>("Liverpool", 3), new MutablePair<>("Bayern Monachium", 3));
+        processor.updateMatchScore(new MutablePair<>("Borussia Dortmund", 3), new MutablePair<>("Atletico Madryt", 3));
+        processor.updateMatchScore(new MutablePair<>("Manchester City", 2), new MutablePair<>("Real Madryt", 2));
+        processor.updateMatchScore(new MutablePair<>("Barcelona", 2), new MutablePair<>("PSG", 1));
 
-        List<FootballMatch> summaryListCorrectOrder = List.of(oldestMatch, match3, match2, match1);
+        List<FootballMatch> summaryListCorrectOrder = Arrays.asList(oldestMatch, match3, match1, match2);
 
         //when
         List<FootballMatch> footballMatchesSummary = processor.createMatchesSummary();
@@ -93,7 +94,7 @@ public class FootballMatchProcessorTest {
         //then
         assertEquals(footballMatchesSummary, summaryListCorrectOrder);
         assertEquals(footballMatchesSummary.get(0).getTotalScore(), Integer.valueOf(6));
-        assertEquals(footballMatchesSummary.get(0).getHomeTeamName(), HOME_TEAM);
+        assertEquals(footballMatchesSummary.get(0).getHomeTeamName(), "Liverpool");
 
     }
 }
