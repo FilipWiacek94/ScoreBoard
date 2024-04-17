@@ -4,6 +4,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.example.model.FootballMatch;
 import org.example.processor.FootballMatchProcessor;
 import org.example.processor.impl.FootballMatchProcessorImpl;
+import org.example.utils.MatchStatus;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -45,5 +46,24 @@ public class FootballMatchProcessorTest {
         assertEquals(updatedMatch.getHomeTeamScore(), Integer.valueOf(2));
         assertEquals(updatedMatch.getAwayTeamScore(), Integer.valueOf(1));
         assertEquals(updatedMatch.getTotalScore(), Integer.valueOf(3));
+    }
+
+    @Test
+    public void shouldFinishFootballMatch() {
+        //given
+        FootballMatchProcessor processor = new FootballMatchProcessorImpl();
+        processor.startFootballMatch(HOME_TEAM, AWAY_TEAM);
+
+
+        //when
+        FootballMatch finishMatch = processor.finishMatch(HOME_TEAM, AWAY_TEAM);
+
+        //then
+        assertEquals(finishMatch.getHomeTeamName(), HOME_TEAM);
+        assertEquals(finishMatch.getAwayTeamName(), AWAY_TEAM);
+        assertEquals(finishMatch.getHomeTeamScore(), Integer.valueOf(0));
+        assertEquals(finishMatch.getAwayTeamScore(), Integer.valueOf(0));
+        assertEquals(finishMatch.getTotalScore(), Integer.valueOf(0));
+        assertEquals(finishMatch.getMatchStatus(), MatchStatus.ENDED);
     }
 }
