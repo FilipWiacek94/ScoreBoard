@@ -1,5 +1,6 @@
 package org.example.repository;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.example.model.FootballMatch;
 import org.example.repository.impl.FootballMatchRepositoryImpl;
 import org.junit.Test;
@@ -62,5 +63,91 @@ public class FootballMatchRepositoryTest {
 
         //then
         assertEquals(repository.getFootballMatches().size(), 2);
+    }
+
+    @Test
+    public void shouldUpdateFootballMatch() {
+        //given
+        FootballMatch.createNewFootballMatch(HOME_TEAM, AWAY_TEAM);
+    }
+
+    @Test
+    public void shouldUpdateFootballMatchScore() {
+        //given
+        Pair<String, Integer> homeTeamNewScore = Pair.of(HOME_TEAM, 2);
+        Pair<String, Integer> awayTeamNewScore = Pair.of(AWAY_TEAM, 1);
+
+        FootballMatch newFootballMatch = FootballMatch.createNewFootballMatch(HOME_TEAM, AWAY_TEAM);
+        FootballMatchRepository repository = new FootballMatchRepositoryImpl();
+        repository.startFootballMatch(newFootballMatch);
+
+        //when
+        FootballMatch updateFootballMatch = repository.updateFootballMatch(homeTeamNewScore, awayTeamNewScore);
+
+        //then
+        assertEquals(repository.getFootballMatches().size(), 1);
+        assertEquals(updateFootballMatch.getHomeTeamName(), HOME_TEAM);
+        assertEquals(updateFootballMatch.getAwayTeamName(), AWAY_TEAM);
+        assertEquals(repository.getFootballMatches().get(0).getTotalScore(), Integer.valueOf(3));
+        assertEquals(repository.getFootballMatches().get(0).getHomeTeamScore(), Integer.valueOf(2));
+        assertEquals(repository.getFootballMatches().get(0).getAwayTeamScore(), Integer.valueOf(1));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldNotUpdateFootballMatchDueToWrongHomeTeam() {
+        //given
+        Pair<String, Integer> homeTeamNewScore = Pair.of("Tottenham", 2);
+        Pair<String, Integer> awayTeamNewScore = Pair.of(AWAY_TEAM, 1);
+
+        FootballMatch newFootballMatch = FootballMatch.createNewFootballMatch(HOME_TEAM, AWAY_TEAM);
+        FootballMatchRepository repository = new FootballMatchRepositoryImpl();
+        repository.startFootballMatch(newFootballMatch);
+
+        //when
+        //then
+        repository.updateFootballMatch(homeTeamNewScore, awayTeamNewScore);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldNotUpdateFootballMatchDueToWrongAwayTeam() {
+        //given
+        Pair<String, Integer> homeTeamNewScore = Pair.of(HOME_TEAM, 2);
+        Pair<String, Integer> awayTeamNewScore = Pair.of("Tottenham", 1);
+
+        FootballMatch newFootballMatch = FootballMatch.createNewFootballMatch(HOME_TEAM, AWAY_TEAM);
+        FootballMatchRepository repository = new FootballMatchRepositoryImpl();
+        repository.startFootballMatch(newFootballMatch);
+
+        //when
+        //then
+        repository.updateFootballMatch(homeTeamNewScore, awayTeamNewScore);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldNotUpdateFootballMatchDueToNullValueOfHomeTeamNewScore() {
+        //given
+        Pair<String, Integer> awayTeamNewScore = Pair.of(AWAY_TEAM, 1);
+
+        FootballMatch newFootballMatch = FootballMatch.createNewFootballMatch(HOME_TEAM, AWAY_TEAM);
+        FootballMatchRepository repository = new FootballMatchRepositoryImpl();
+        repository.startFootballMatch(newFootballMatch);
+
+        //when
+        //then
+        repository.updateFootballMatch(null, awayTeamNewScore);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldNotUpdateFootballMatchDueToNullValueOfAwayTeamNewScore() {
+        //given
+        Pair<String, Integer> homeTeamNewScore = Pair.of(HOME_TEAM, 1);
+
+        FootballMatch newFootballMatch = FootballMatch.createNewFootballMatch(HOME_TEAM, AWAY_TEAM);
+        FootballMatchRepository repository = new FootballMatchRepositoryImpl();
+        repository.startFootballMatch(newFootballMatch);
+
+        //when
+        //then
+        repository.updateFootballMatch(homeTeamNewScore, null);
     }
 }
