@@ -24,4 +24,9 @@ public class FootballMatchProcessorImpl implements FootballMatchProcessor {
     public FootballMatch updateMatchScore(Pair<String, Integer> homeTeamNewScore, Pair<String, Integer> awayTeamNewScore) {
         return footballMatchRepository.updateFootballMatch(homeTeamNewScore, awayTeamNewScore);
     }
+
+    @Override
+    public FootballMatch finishMatch(String homeTeam, String awayTeam) {
+        return footballMatchRepository.finishMatch(homeTeam, awayTeam);
+    }
 }

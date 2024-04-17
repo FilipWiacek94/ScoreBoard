@@ -20,5 +20,13 @@ public interface FootballMatchProcessor {
      * @return Updated football match object.
      */
     FootballMatch updateMatchScore(Pair<String, Integer> homeTeamNewScore, Pair<String, Integer> awayTeamNewScore);
+
+    /**
+     * Method responsible for finishing football match.
+     * @param homeTeam Name of home team.
+     * @param awayTeam Name of away team.
+     * @return Finished FootballMatch.
+     */
+    FootballMatch finishMatch(String homeTeam, String awayTeam);
 }
 
