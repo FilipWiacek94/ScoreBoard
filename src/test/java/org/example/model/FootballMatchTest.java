@@ -1,5 +1,6 @@
 package org.example.model;
 
+import org.apache.commons.lang3.tuple.MutablePair;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -11,8 +12,10 @@ public class FootballMatchTest {
     @Test
     public void shouldCreateFootballMatch() {
         //given
+
         //when
         FootballMatch match = FootballMatch.createNewFootballMatch(HOME_TEAM, AWAY_TEAM);
+
         //then
         assertEquals(match.getHomeTeamName(), HOME_TEAM);
         assertEquals(match.getAwayTeamName(), AWAY_TEAM);
@@ -83,5 +86,55 @@ public class FootballMatchTest {
         FootballMatch.createNewFootballMatch(HOME_TEAM, "");
         //when
         //then
+    }
+
+    @Test
+    public void shouldUpdateMatchScore() {
+        //given
+        FootballMatch newFootballMatch = FootballMatch.createNewFootballMatch(HOME_TEAM, AWAY_TEAM);
+
+        //when
+        newFootballMatch.updateScore(new MutablePair<>(HOME_TEAM, 2), new MutablePair<>(AWAY_TEAM, 1));
+
+        //then
+        assertEquals(newFootballMatch.getHomeTeamScore(), Integer.valueOf(2));
+        assertEquals(newFootballMatch.getAwayTeamScore(), Integer.valueOf(1));
+        assertEquals(newFootballMatch.getTotalScore(), Integer.valueOf(3));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldNotUpdateMatchScoreDueToWrongHomeTeamName() {
+        //given
+        FootballMatch newFootballMatch = FootballMatch.createNewFootballMatch(HOME_TEAM, AWAY_TEAM);
+
+        //when
+        newFootballMatch.updateScore(new MutablePair<>("Tottenham", 2), new MutablePair<>(AWAY_TEAM, 1));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldNotUpdateMatchScoreDueToWrongAwayTeamName() {
+        //given
+        FootballMatch newFootballMatch = FootballMatch.createNewFootballMatch(HOME_TEAM, AWAY_TEAM);
+
+        //when
+        newFootballMatch.updateScore(new MutablePair<>(HOME_TEAM, 2), new MutablePair<>("Tottenham", 1));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldNotUpdateMatchSCoreDueToHomeTeamNewScoreBelowZero() {
+        //given
+        FootballMatch newFootballMatch = FootballMatch.createNewFootballMatch(HOME_TEAM, AWAY_TEAM);
+
+        //when
+        newFootballMatch.updateScore(new MutablePair<>(HOME_TEAM, -2), new MutablePair<>(AWAY_TEAM, 1));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldNotUpdateMatchSCoreDueToAwayTeamNewScoreBelowZero() {
+        //given
+        FootballMatch newFootballMatch = FootballMatch.createNewFootballMatch(HOME_TEAM, AWAY_TEAM);
+
+        //when
+        newFootballMatch.updateScore(new MutablePair<>(HOME_TEAM, 2), new MutablePair<>(AWAY_TEAM, -1));
     }
 }

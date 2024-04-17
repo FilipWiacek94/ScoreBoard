@@ -2,7 +2,7 @@ package processor;
 
 import org.example.model.FootballMatch;
 import org.example.processor.FootballMatchProcessor;
-import org.example.processor.FootballMatchProcessorImpl;
+import org.example.processor.impl.FootballMatchProcessorImpl;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

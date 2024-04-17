@@ -1,6 +1,7 @@
-package org.example.processor;
+package org.example.processor.impl;
 
 import org.example.model.FootballMatch;
+import org.example.processor.FootballMatchProcessor;
 import org.example.repository.FootballMatchRepository;
 import org.example.repository.impl.FootballMatchRepositoryImpl;
 
