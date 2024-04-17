@@ -5,6 +5,7 @@ import org.example.utils.MatchStatus;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class FootballMatchTest {
     public static final String HOME_TEAM = "Arsenal";
@@ -160,5 +161,15 @@ public class FootballMatchTest {
         //when
         //then
         newFootballMatch.finishGame();
+    }
+
+    @Test
+    public void shouldStartMatchTime() {
+        //given
+        //when
+        FootballMatch newFootballMatch = FootballMatch.createNewFootballMatch(HOME_TEAM, AWAY_TEAM);
+
+        //then
+        assertNotNull(newFootballMatch.getStartTime());
     }
 }

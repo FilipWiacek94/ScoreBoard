@@ -1,11 +1,13 @@
 package org.example.repository;
 
+import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.example.model.FootballMatch;
 import org.example.repository.impl.FootballMatchRepositoryImpl;
 import org.example.utils.MatchStatus;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -205,5 +207,64 @@ public class FootballMatchRepositoryTest {
         //when
         //then
         FootballMatch endedFootballMatch = repository.finishMatch(HOME_TEAM, null);
+    }
+
+    @Test
+    public void shouldReturnFootballMatchesSummaryWithNoSameTotalScore() {
+        //given
+        FootballMatch match1 = FootballMatch.createNewFootballMatch("Aston Villa", "Lille");
+        FootballMatch match2 = FootballMatch.createNewFootballMatch("Club Brugge", "PAOK");
+        FootballMatch match3 = FootballMatch.createNewFootballMatch("Olympiakos", "Fenerbahce");
+        FootballMatch match4 = FootballMatch.createNewFootballMatch("Pilzno", "Fiorentina");
+
+        FootballMatchRepository repository = new FootballMatchRepositoryImpl();
+        repository.startFootballMatch(match1);
+        repository.startFootballMatch(match2);
+        repository.startFootballMatch(match3);
+        repository.startFootballMatch(match4);
+
+        repository.updateFootballMatch(new MutablePair<>("Aston Villa", 1), new MutablePair<>("Lille", 1));
+        repository.updateFootballMatch(new MutablePair<>("Club Brugge", 2), new MutablePair<>("PAOK", 2));
+        repository.updateFootballMatch(new MutablePair<>("Olympiakos", 3), new MutablePair<>("Fenerbahce", 3));
+        repository.updateFootballMatch(new MutablePair<>("Pilzno", 4), new MutablePair<>("Fiorentina", 4));
+
+        List<FootballMatch> footballMatchesSummaryInCorrectOrder = Arrays.asList(match4, match3, match2, match1);
+
+        //when
+        List<FootballMatch> footballMatchesSummary = repository.createFootballMatachesSummary();
+
+        //then
+        assertEquals(footballMatchesSummary, footballMatchesSummaryInCorrectOrder);
+        assertEquals(footballMatchesSummary.get(0).getTotalScore(), Integer.valueOf(8));
+    }
+
+    @Test
+    public void shouldReturnFootballMatchesSummaryWithSameTotalScore() {
+        //given
+        FootballMatch oldestMatch = FootballMatch.createNewFootballMatch("Pilzno", "Fiorentina");
+        FootballMatch match1 = FootballMatch.createNewFootballMatch("Aston Villa", "Lille");
+        FootballMatch match2 = FootballMatch.createNewFootballMatch("Club Brugge", "PAOK");
+        FootballMatch match3 = FootballMatch.createNewFootballMatch("Olympiakos", "Fenerbahce");
+
+
+        FootballMatchRepository repository = new FootballMatchRepositoryImpl();
+        repository.startFootballMatch(oldestMatch);
+        repository.startFootballMatch(match1);
+        repository.startFootballMatch(match2);
+        repository.startFootballMatch(match3);
+
+        repository.updateFootballMatch(new MutablePair<>("Aston Villa", 1), new MutablePair<>("Lille", 1));
+        repository.updateFootballMatch(new MutablePair<>("Club Brugge", 2), new MutablePair<>("PAOK", 2));
+        repository.updateFootballMatch(new MutablePair<>("Olympiakos", 3), new MutablePair<>("Fenerbahce", 3));
+        repository.updateFootballMatch(new MutablePair<>("Pilzno", 3), new MutablePair<>("Fiorentina", 3));
+
+        List<FootballMatch> footballMatchesSummaryInCorrectOrder = Arrays.asList(oldestMatch, match3, match2, match1);
+
+        //when
+        List<FootballMatch> footballMatchesSummary = repository.createFootballMatachesSummary();
+
+        //then
+        assertEquals(footballMatchesSummary, footballMatchesSummaryInCorrectOrder);
+        assertEquals(footballMatchesSummary.get(0).getTotalScore(), Integer.valueOf(6));
     }
 }
