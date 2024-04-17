@@ -47,7 +47,7 @@ public class FootballMatchRepositoryImpl implements FootballMatchRepository {
 
     private FootballMatch findFootballMatch(String homeTeamName, String awayTeamName) {
         return getFootballMatches().stream()
-                .filter(match -> match.getHomeTeamName().equals(homeTeamName) || match.getAwayTeamName().equals(awayTeamName))
+                .filter(match -> match.getHomeTeamName().equals(homeTeamName) && match.getAwayTeamName().equals(awayTeamName))
                 .findFirst()
                 .orElse(null);
     }

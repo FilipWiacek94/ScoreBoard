@@ -3,6 +3,7 @@ package org.example.repository;
 import org.apache.commons.lang3.tuple.Pair;
 import org.example.model.FootballMatch;
 import org.example.repository.impl.FootballMatchRepositoryImpl;
+import org.example.utils.MatchStatus;
 import org.junit.Test;
 
 import java.util.List;
@@ -149,5 +150,34 @@ public class FootballMatchRepositoryTest {
         //when
         //then
         repository.updateFootballMatch(homeTeamNewScore, null);
+    }
+
+    @Test
+    public void shouldFinishFootballMatch() {
+        //given
+        FootballMatch newFootballMatch = FootballMatch.createNewFootballMatch(HOME_TEAM, AWAY_TEAM);
+        FootballMatchRepository repository = new FootballMatchRepositoryImpl();
+
+        repository.startFootballMatch(newFootballMatch);
+
+        //when
+        FootballMatch endedFootballMatch = repository.finishMatch(HOME_TEAM, AWAY_TEAM);
+
+        //then
+        assertEquals(endedFootballMatch.getMatchStatus(), MatchStatus.ENDED);
+        assertEquals(repository.getFootballMatches().size(), 0);
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void shouldNotFinishMatchDueToLackOfSpecificFootballMatch() {
+        //given
+        FootballMatch newFootballMatch = FootballMatch.createNewFootballMatch(HOME_TEAM, AWAY_TEAM);
+        FootballMatchRepository repository = new FootballMatchRepositoryImpl();
+
+        repository.startFootballMatch(newFootballMatch);
+
+        //when
+        //then
+        FootballMatch endedFootballMatch = repository.finishMatch("Tottenham", AWAY_TEAM);
     }
 }
