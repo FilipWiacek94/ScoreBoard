@@ -4,6 +4,7 @@ package org.example.model;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.example.utils.MatchStatus;
+import org.joda.time.Instant;
 
 import java.util.Objects;
 
@@ -13,6 +14,7 @@ public class FootballMatch {
     private final Pair<String, Integer> awayTeam;
     private Integer totalScore;
     private MatchStatus matchStatus;
+    private final Instant startTime;
 
     private FootballMatch(String homeTeamName, String awayTeamName) {
         if (homeTeamName == null || awayTeamName == null) throw new IllegalArgumentException("homeTeamName and awayTeamName cannot be null");
@@ -24,8 +26,8 @@ public class FootballMatch {
         this.awayTeam = new MutablePair<>(awayTeamName, 0);
         this.totalScore = 0;
         this.matchStatus = MatchStatus.IN_PROGRESS;
+        this.startTime = Instant.now();
     }
-
 
     public static FootballMatch createNewFootballMatch(String homeTeamName, String awayTeamName) {
         return new FootballMatch(homeTeamName, awayTeamName);
@@ -70,6 +72,10 @@ public class FootballMatch {
 
     public MatchStatus getMatchStatus() {
         return matchStatus;
+    }
+
+    public Instant getStartTime() {
+        return startTime;
     }
 
     private boolean areFootballTeamsNamesNotSame(String homeTeamName, String awayTeamName) {
